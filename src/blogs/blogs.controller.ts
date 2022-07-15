@@ -25,8 +25,8 @@ export class BlogsController {
   }
 
   @Get('/:id')
-  getBlogById(@Param() params: { id: string }) {
-    return this.blogService.getBlogByID(params.id);
+  getBlogById(@Param('id') id: string) {
+    return this.blogService.getBlogByID(id);
   }
 
   @Post('/create-new-blog')
@@ -35,12 +35,12 @@ export class BlogsController {
   }
 
   @Delete('/delete/:id')
-  deleteBlogById(@Param() params: { id: string }) {
-    return this.blogService.deleteBlogById(params.id);
+  deleteBlogById(@Param('id') id: string) {
+    return this.blogService.deleteBlogById(id);
   }
 
   @Patch('/update/:id')
-  patchBlogById(@Param() params: { id: string }, @Body() body: CreateBlogDTO) {
-    return this.blogService.updateBlogById(params.id, body);
+  patchBlogById(@Param('id') id: string, @Body() body: CreateBlogDTO) {
+    return this.blogService.updateBlogById(id, body);
   }
 }

@@ -1,5 +1,5 @@
-import { Controller, Get, Req } from '@nestjs/common';
-import { Request } from 'express';
+import { Body, Controller, Get, Req } from '@nestjs/common';
+import { RegisterUserDTO } from 'src/auth/dto/register.dto';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -17,7 +17,7 @@ export class UsersController {
   }
 
   @Get('/create-new')
-  postNewUser(@Req() req: Request) {
-    return this.userService.createNewUser(req);
+  postNewUser(@Body() body: RegisterUserDTO) {
+    return this.userService.createNewUser(body);
   }
 }
