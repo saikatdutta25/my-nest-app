@@ -31,7 +31,7 @@ export class UsersService {
     }
   }
 
-  async findByEmailPass(body: LoginUserDTO): Promise<object> {
+  async findByEmailPass(body: LoginUserDTO): Promise<IUser> {
     const { email, password } = body;
     try {
       const user = await this.userModel.findOne({ email });
