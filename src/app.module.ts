@@ -6,6 +6,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { BlogsModule } from './blogs/blogs.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import configuration from './envs/env.helper'
+import { connectionPoolProvider } from './data/db.msssql.provider';
+import SampleDal from './data/sample.dal';
 
 @Module({
   imports: [
@@ -13,9 +16,12 @@ import { ConfigModule } from '@nestjs/config';
     MongooseModule.forRoot('mongodb://localhost:27017/nestApp'),
     BlogsModule,
     AuthModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      load: [configuration],
+      isGlobal: true
+    }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, connectionPoolProvider,SampleDal],
 })
-export class AppModule {}
+export class AppModule { }
