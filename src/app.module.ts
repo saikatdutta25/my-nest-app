@@ -12,13 +12,14 @@ import SampleDal from './data/sample.dal';
 
 @Module({
   imports: [
+    MongooseModule.forRoot(process.env.MONGO_URI),
     UsersModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/nestApp'),
     BlogsModule,
     AuthModule,
     ConfigModule.forRoot({
       load: [configuration],
-      isGlobal: true
+      isGlobal: true,
+      envFilePath: `${process.cwd()}/src/config/.env.${process.env.NODE_ENV}`,
     }),
   ],
   controllers: [AppController],

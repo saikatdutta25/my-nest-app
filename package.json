@@ -10,8 +10,14 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
+<<<<<<< HEAD
     "develop": "nest start --watch",
     "start:dev": "SET NODE_ENV=dev & nest start --watch",
+=======
+    "develop": "NODE_ENV=dev nest start --watch",
+    "develop:prod": "NODE_ENV=prod nest start --watch",
+    "start:dev": "nest start --watch",
+>>>>>>> abc0b2bafb060b102e88496ce6cde2cc1ee3e0c6
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
