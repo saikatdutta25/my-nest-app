@@ -12,6 +12,7 @@
     "start": "nest start",
     "develop": "NODE_ENV=dev nest start --watch",
     "develop:prod": "NODE_ENV=prod nest start --watch",
+    "devprod": "NODE_ENV=prod node dist/main",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",

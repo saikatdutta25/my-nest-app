@@ -10,8 +10,8 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true,
       envFilePath: `${process.cwd()}/src/config/.env.${process.env.NODE_ENV}`,
+      isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.MONGO_URI),
     UsersModule,

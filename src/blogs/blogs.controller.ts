@@ -12,7 +12,7 @@ import { CreateBlogDTO } from './dto/blog-create.dto';
 
 @Controller('blogs')
 export class BlogsController {
-  constructor(private blogService: BlogsService) {}
+  constructor(private readonly blogService: BlogsService) {}
 
   @Get()
   getBlogApi() {

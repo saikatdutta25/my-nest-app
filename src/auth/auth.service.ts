@@ -7,8 +7,8 @@ import { RegisterUserDTO } from './dto/register.dto';
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async register(body: RegisterUserDTO): Promise<object> {
@@ -19,8 +19,8 @@ export class AuthService {
   async login(body: LoginUserDTO): Promise<object> {
     const userData = await this.usersService.findByEmailPass(body);
     const { email, _id } = userData;
-    // console.log(userData);
+    console.log(process.env.JWT_SECRET);
     const payload = { username: email, id: _id };
-    return { message: 'Sussessfull', token: this.jwtService.sign(payload)};
+    return { message: 'Sussessfull', token: this.jwtService.sign(payload) };
   }
 }
