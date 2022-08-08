@@ -1,18 +1,23 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { IAuthor } from 'src/authors/schema/author.schema';
 import { CreateBlogDTO } from './dto/blog-create.dto';
 import { IBlog } from './schema/blog.schema';
 
 @Injectable()
 export class BlogsService {
-  constructor(@InjectModel('Blog') private readonly blogModel: Model<IBlog>) {}
+  constructor(
+    @InjectModel('Blog') private readonly blogModel: Model<IBlog>,
+    @InjectModel('Author') private readonly authorModel: Model<IAuthor>,
+  ) {}
 
   async getAllBlogs() {
     try {
       const allBlogs = await this.blogModel.find();
+      const allauth = await this.authorModel.find();
       if (!allBlogs) throw new Error('Blogs Not found');
-      return { message: 'Sussessfull', blogs: allBlogs };
+      return { message: 'Sussessfull', blogs: allBlogs, allauth };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
@@ -31,7 +36,9 @@ export class BlogsService {
 
   async getBlogByID(id: string): Promise<object> {
     try {
-      const getBlog = await this.blogModel.findById(id);
+      const getBlog = await this.blogModel
+        .findById(id)
+        .populate({ path: 'author', select: 'name -_id mobileNo' });
       if (!getBlog) throw new Error('Something error! Blog Not found');
       return { message: 'Sussessfull', blog: getBlog };
     } catch (error) {
