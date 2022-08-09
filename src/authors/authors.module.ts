@@ -10,5 +10,6 @@ import { AuthorSchema } from './schema/author.schema';
   ],
   controllers: [AuthorsController],
   providers: [AuthorsService],
+  exports: [AuthorsService, MongooseModule],
 })
 export class AuthorsModule {}

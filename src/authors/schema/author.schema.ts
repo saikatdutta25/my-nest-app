@@ -15,7 +15,7 @@ export const AuthorSchema = new Schema(
       type: String,
       required: true,
     },
-    blogList: [{ type: [{ type: Schema.Types.ObjectId, ref: 'Blog' }] }],
+    blogList: [{ type: Schema.Types.ObjectId, ref: 'Blog' }],
     mobileNo: Number,
   },
   { timestamps: true },

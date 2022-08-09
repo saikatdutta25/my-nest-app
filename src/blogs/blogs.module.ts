@@ -4,9 +4,15 @@ import { BlogSchema } from './schema/blog.schema';
 import { BlogsController } from './blogs.controller';
 import { BlogsService } from './blogs.service';
 import { TestMiddleware } from './middlewares/test.middleware';
+import { AuthorSchema } from 'src/authors/schema/author.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'Blog', schema: BlogSchema }])],
+  imports: [
+    MongooseModule.forFeature([
+      { name: 'Blog', schema: BlogSchema },
+      { name: 'Author', schema: AuthorSchema },
+    ]),
+  ],
   controllers: [BlogsController],
   providers: [BlogsService],
 })

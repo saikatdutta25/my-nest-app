@@ -15,9 +15,8 @@ export class BlogsService {
   async getAllBlogs() {
     try {
       const allBlogs = await this.blogModel.find();
-      const allauth = await this.authorModel.find();
       if (!allBlogs) throw new Error('Blogs Not found');
-      return { message: 'Sussessfull', blogs: allBlogs, allauth };
+      return { message: 'Sussessfull', blogs: allBlogs };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
@@ -28,6 +27,9 @@ export class BlogsService {
       const newBlog = new this.blogModel(body);
       const createdBlog = await newBlog.save();
       if (!createdBlog) throw new Error('Something error! Blog Not created');
+      const authorById = await this.authorModel.findById(createdBlog.author);
+      authorById.blogList.push(createdBlog);
+      await authorById.save();
       return { message: 'Sussessfull', blog: createdBlog };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
