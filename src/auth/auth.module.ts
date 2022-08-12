@@ -6,8 +6,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { ConfigService } from '@nestjs/config';
 
-console.log('from module', process.env.JWT_SECRET);
-
 @Module({
   imports: [
     UsersModule,

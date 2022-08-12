@@ -13,7 +13,7 @@ export class AuthService {
 
   async register(body: RegisterUserDTO): Promise<object> {
     const data = await this.usersService.createNewUser(body);
-    return data;
+    return { message: 'Sussessfull', user: data };
   }
 
   async login(body: LoginUserDTO): Promise<object> {
