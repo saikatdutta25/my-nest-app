@@ -1,30 +1,21 @@
-import { Document, Schema } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { Document } from 'mongoose';
+import { Author } from 'src/authors/schema/author.schema';
 
-export interface IBlog extends Document {
-  readonly name: string;
-  readonly description: string;
-  readonly author: object;
-  readonly link: string;
+export type BlogDocument = Blog & Document;
+
+@Schema()
+export class Blog {
+  @Prop({ required: true })
+  name: string;
+
+  @Prop({ required: true })
+  description: string;
+
+  @Prop({ required: true })
+  link: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Author' })
+  author: Author;
 }
-
-export const BlogSchema = new Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    author: {
-      type: Schema.Types.ObjectId,
-      ref: 'Author',
-    },
-    link: {
-      type: String,
-      required: true,
-    },
-  },
-  { timestamps: true },
-);
+export const BlogSchema = SchemaFactory.createForClass(Blog);

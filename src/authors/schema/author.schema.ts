@@ -1,22 +1,19 @@
-import { Document, Schema } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { Document } from 'mongoose';
+import { Blog } from 'src/blogs/schema/blog.schema';
 
-interface BlogType {
-  _id: any;
-}
-export interface IAuthor extends Document {
-  readonly name: string;
-  readonly mobileNo: number;
-  readonly blogList?: Array<BlogType>;
+export type AuthorDocument = Author & Document;
+
+@Schema()
+export class Author {
+  @Prop({ required: true })
+  name: string;
+
+  @Prop({ required: true })
+  mobileNo: number;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Blog' }] })
+  blogList: Blog[];
 }
 
-export const AuthorSchema = new Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    blogList: [{ type: Schema.Types.ObjectId, ref: 'Blog' }],
-    mobileNo: Number,
-  },
-  { timestamps: true },
-);
+export const AuthorSchema = SchemaFactory.createForClass(Author);

@@ -1,21 +1,25 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { IAuthor } from 'src/authors/schema/author.schema';
+import { Author, AuthorDocument } from 'src/authors/schema/author.schema';
 import { CreateBlogDTO } from './dto/blog-create.dto';
-import { IBlog } from './schema/blog.schema';
+import { Blog, BlogDocument } from './schema/blog.schema';
+import { Logger } from 'winston';
 
 @Injectable()
 export class BlogsService {
   constructor(
-    @InjectModel('Blog') private readonly blogModel: Model<IBlog>,
-    @InjectModel('Author') private readonly authorModel: Model<IAuthor>,
+    @InjectModel(Blog.name) private readonly blogModel: Model<BlogDocument>,
+    @InjectModel(Author.name)
+    private readonly authorModel: Model<AuthorDocument>,
+    @Inject('winston') private readonly logger: Logger,
   ) {}
 
   async getAllBlogs() {
     try {
       const allBlogs = await this.blogModel.find();
       if (!allBlogs) throw new Error('Blogs Not found');
+      this.logger.info('All blogs');
       return { message: 'Sussessfull', blogs: allBlogs };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);

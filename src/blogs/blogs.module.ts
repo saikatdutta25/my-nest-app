@@ -1,16 +1,16 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { BlogSchema } from './schema/blog.schema';
+import { Blog, BlogSchema } from './schema/blog.schema';
 import { BlogsController } from './blogs.controller';
 import { BlogsService } from './blogs.service';
-import { TestMiddleware2 } from './middlewares/test.middleware';
-import { AuthorSchema } from 'src/authors/schema/author.schema';
+import { TestMiddleware, TestMiddleware2 } from './middlewares/test.middleware';
+import { Author, AuthorSchema } from 'src/authors/schema/author.schema';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: 'Blog', schema: BlogSchema },
-      { name: 'Author', schema: AuthorSchema },
+      { name: Blog.name, schema: BlogSchema },
+      { name: Author.name, schema: AuthorSchema },
     ]),
   ],
   controllers: [BlogsController],
@@ -18,6 +18,8 @@ import { AuthorSchema } from 'src/authors/schema/author.schema';
 })
 export class BlogsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(TestMiddleware2).forRoutes('blogs/all-blogs');
+    consumer
+      .apply(TestMiddleware, TestMiddleware2)
+      .forRoutes('blogs/all-blogs');
   }
 }

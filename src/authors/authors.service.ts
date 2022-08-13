@@ -2,12 +2,13 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateAuthorDTO } from './dto/author.create.dto';
-import { IAuthor } from './schema/author.schema';
+import { Author, AuthorDocument } from './schema/author.schema';
 
 @Injectable()
 export class AuthorsService {
   constructor(
-    @InjectModel('Author') private readonly authorModel: Model<IAuthor>,
+    @InjectModel(Author.name)
+    private readonly authorModel: Model<AuthorDocument>,
   ) {}
 
   async getAllAuthor() {
@@ -20,7 +21,7 @@ export class AuthorsService {
     }
   }
 
-  async createNewAuthor(authorBody: CreateAuthorDTO): Promise<IAuthor> {
+  async createNewAuthor(authorBody: CreateAuthorDTO): Promise<AuthorDocument> {
     try {
       const author = new this.authorModel(authorBody);
       await author.save();
